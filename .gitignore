@@ -1,0 +1,14 @@
+
+# Environments
+.env
+.venv
+venv/
+
+# Папки, создаваемые средой разработки
+.idea
+.DS_Store
+.vscode/
+
+# папки со статикой и медиа
+static/
+media/
