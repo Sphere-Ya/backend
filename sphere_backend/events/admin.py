@@ -1,6 +1,8 @@
 from django.contrib import admin
+from mptt.admin import MPTTModelAdmin
 
-from .models import Anketa, EventSpecialization, File, Interest
+from .models import (Anketa, EventSpecialization, Event,
+                     File, Interest, Participant, Speaker)
 
 
 @admin.register(EventSpecialization)
@@ -67,3 +69,41 @@ class AnketaAdmin(admin.ModelAdmin):
 
     def get_interests(self, obj):
         return "\n".join([p.name for p in obj.interests.all()])
+
+
+class EventMPTTModelAdmin(MPTTModelAdmin):
+    # specify pixel amount for this ModelAdmin only:
+    mptt_level_indent = 20
+    list_display = (
+        'name',
+        'started_at',
+        'ended_at',
+    )
+
+
+admin.site.register(Event, EventMPTTModelAdmin)
+
+
+@admin.register(Participant)
+class ParticipantAdmin(admin.ModelAdmin):
+    list_display = (
+        'user',
+        'event',
+        'participation_format',
+        'status'
+    )
+    search_fields = ('user', 'event')
+    list_filter = ('user', 'event')
+    empty_value_display = '-пусто-'
+
+
+@admin.register(Speaker)
+class SpeakerAdmin(admin.ModelAdmin):
+    list_display = (
+        'participant',
+        'event',
+        'type',
+    )
+    search_fields = ('participant', 'event')
+    list_filter = ('participant', 'event')
+    empty_value_display = '-пусто-'
