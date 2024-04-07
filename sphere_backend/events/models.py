@@ -46,25 +46,3 @@ class File(models.Model):
 
     def __str__(self):
         return self.name
-
-class Event(models.Model):
-  # event =
-      name = models.CharField('Название события', max_length=250)
-      description = models.TextField('Описание')
-      started_at = models.DateTimeField(verbose_name='Дата начала события')
-      ended_at = models.DateTimeField(verbose_name='Дата окончания события')
-      link = models.URLField('Ссылка на трансляцию', blank=True, null=True)
-      building_id = models.PositiveIntegerField ('Адрес') # Заглушка, связь со справочником
-      address_comment = models.TextField('Как добраться', max_length=250)
-      event_specializations = models.ManyToManyField(
-            EventSpecialization,
-            related_name='events',
-            blank=True,
-            verbose_name='Специализации',
-        )
-      speakers = models.ManyToManyField(
-            EventSpecialization,
-            related_name='events',
-            blank=True,
-            verbose_name='Специализации',
-        )
