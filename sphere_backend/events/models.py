@@ -131,7 +131,6 @@ class Interest(models.Model):
         return self.name
 
 
-
 class File(models.Model):
     name = models.CharField('Название файла', max_length=250)
     link = models.URLField('Ссылка на файл', blank=False)
