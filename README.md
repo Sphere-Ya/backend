@@ -114,3 +114,25 @@ docker-compose down
 ```
 docker-compose build --no-cache --pull
 ```
+
+
+## Пользователи
+
+### 1. Суперпользоаватель:
+
+      email: admin@h.com 
+
+      password: 111111
+
+### 2. Василий Пупкин:
+
+      email: vasya@h.com
+
+      password: zxc102938
+
+### 3. Джо Блэк:
+
+      email: joe@h.com
+
+      password: mko091122
+
