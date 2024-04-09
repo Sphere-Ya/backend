@@ -45,8 +45,8 @@ class AnketaAdmin(admin.ModelAdmin):
         'job_position',
         'job_title',
         'experience',
-        'interests',
-        'event_specializations',
+        'get_interests',
+        'get_event_specializations',
     )
     search_fields = (
         'first_name',
@@ -61,3 +61,9 @@ class AnketaAdmin(admin.ModelAdmin):
         'phone',
     )
     empty_value_display = '-пусто-'
+
+    def get_event_specializations(self, obj):
+        return "\n".join([p.name for p in obj.event_specializations.all()])
+
+    def get_interests(self, obj):
+        return "\n".join([p.name for p in obj.interests.all()])
