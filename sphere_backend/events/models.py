@@ -151,3 +151,69 @@ class File(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Anketa(models.Model):
+    NONE = 'Нет опыта'
+    BEGINNER = 'От 1 года'
+    EXPERIENCE_3 = 'От 3 лет'
+    EXPERIENCE_5 = 'От 5 лет'
+    OTHER = 'Другое'
+    EXPERIENCE_NAME = (
+        (NONE, NONE),
+        (BEGINNER, BEGINNER),
+        (EXPERIENCE_3, EXPERIENCE_3),
+        (EXPERIENCE_5, EXPERIENCE_5),
+        (OTHER, OTHER),
+    )
+    users = models.ForeignKey(
+        User,
+        verbose_name='Пользователь',
+        on_delete=models.CASCADE,
+        related_name='user_anketa'
+    )
+    first_name = models.CharField(
+        max_length=200,
+        verbose_name='Имя',
+        db_index=True
+    )
+    last_name = models.CharField(
+        max_length=200,
+        verbose_name='Фамилия'
+    )
+    email = models.EmailField(
+        max_length=200,
+        verbose_name='Эл. почта'
+    )
+    phone = models.CharField(
+        max_length=11,
+        verbose_name='Телефон'
+    )
+    job_position = models.CharField(
+        max_length=300,
+        verbose_name='Место работы'
+    )
+    job_title = models.CharField(
+        max_length=200,
+        verbose_name='Должность'
+    )
+    experience = models.CharField(
+        max_length=50,
+        choices=EXPERIENCE_NAME,
+        default=NONE,
+        verbose_name='Опыт работы'
+    )
+    event_specializations = models.ManyToManyField(
+        EventSpecialization,
+        verbose_name='Специализация'
+    )
+    interests = models.ManyToManyField(
+        Interest,
+        verbose_name='Интересы'
+    )
+
+    class Meta:
+        verbose_name_plural = 'Анкета пользователя'
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
