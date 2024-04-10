@@ -154,6 +154,7 @@ class File(models.Model):
 
 
 class Anketa(models.Model):
+    """Анкета пользователя."""
     NONE = 'Нет опыта'
     BEGINNER = 'От 1 года'
     EXPERIENCE_3 = 'От 3 лет'
