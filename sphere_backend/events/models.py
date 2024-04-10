@@ -2,6 +2,7 @@
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from mptt.models import MPTTModel, TreeForeignKey
 from django.db.models.deletion import CASCADE
 
 User = get_user_model()
@@ -113,7 +114,10 @@ class Building(models.Model):
 
 class EventSpecialization(models.Model):
     """Справочник специализаций."""
-    name = models.CharField('Название специализации', max_length=250)
+    name = models.CharField(
+        verbose_name='Название специализации',
+        max_length=250
+    )
 
     class Meta:
         verbose_name = 'Специализация'
@@ -125,7 +129,10 @@ class EventSpecialization(models.Model):
 
 class Interest(models.Model):
     """Справочник направлений работы."""
-    name = models.CharField('Название направления', max_length=250)
+    name = models.CharField(
+        verbose_name='Название направления',
+        max_length=250
+    )
     event_specializations = models.ManyToManyField(
         EventSpecialization,
         related_name='interests',
@@ -142,8 +149,16 @@ class Interest(models.Model):
 
 
 class File(models.Model):
-    name = models.CharField('Название файла', max_length=250)
-    link = models.URLField('Ссылка на файл', blank=False)
+    """"Модель для файлов"""
+    name = models.CharField(
+        verbose_name='Название файла',
+        max_length=250,
+        blank=False
+    )
+    link = models.URLField(
+        verbose_name='Ссылка на файл',
+        blank=False
+    )
 
     class Meta:
         verbose_name = 'Файл'
@@ -218,3 +233,175 @@ class Anketa(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+
+class Event(MPTTModel):
+    """Справочник события (конференции). Имеет структуру дерева"""
+    name = models.CharField(
+        verbose_name='Название события',
+        max_length=250,
+        blank=False,
+    )
+    parent = TreeForeignKey(
+        'self',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='children'
+    )
+    description = models.TextField(
+        verbose_name='Описание события',
+        blank=True,
+    )
+    started_at = models.DateTimeField(
+        verbose_name='Дата начала события',
+        blank=True,  # Цикличные события без дат
+    )
+    ended_at = models.DateTimeField(
+        verbose_name='Дата окончания события',
+        blank=True,
+    )
+    is_online = models.BooleanField(
+        verbose_name='Онлайн',
+        default=False
+    )
+    link = models.URLField(
+        verbose_name='Ссылка на трансляцию',
+        blank=True,
+        null=True
+    )
+    is_offline = models.BooleanField(
+        verbose_name='Оффлайн',
+        default=False
+    )
+    building = models.ForeignKey(
+        Building,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name='events',
+        verbose_name='ID дома (адрес)',
+
+    )
+    address_comment = models.TextField(
+        verbose_name='Как добраться',
+        max_length=250,
+        blank=True,
+    )
+    event_specializations = models.ManyToManyField(
+        EventSpecialization,
+        related_name='events',
+        blank=True,
+        verbose_name='Специализации',
+    )
+    files = models.ManyToManyField(
+        File,
+        related_name='events',
+        blank=True,
+        verbose_name='Файлы',
+    )
+
+    class MPTTMeta:
+        order_insertion_by = ['started_at']
+
+    class Meta:
+        verbose_name = 'Событие'
+        verbose_name_plural = 'События'
+
+    def __str__(self):
+        return self.name
+
+
+class Participant(models.Model):
+    """Модель участника события"""
+    NEW = 'new'
+    ACCEPTED = 'accepted'
+    CANCELED = 'canceled'
+    STATUS_PARTICIPANT = (
+        (NEW, 'new'),
+        (ACCEPTED, 'accepted'),
+        (CANCELED, 'canceled'),
+    )
+    ON = 'online'
+    OFF = 'offline'
+    FORMAT = (
+        (ON, 'online'),
+        (OFF, 'offline'),
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='participant',
+        verbose_name='ID пользователя',
+
+    )
+    event = models.ForeignKey(
+        Event,
+        on_delete=models.CASCADE,
+        related_name='participant',
+        help_text='Конференция, на которую подписались',
+        verbose_name='ID конференции',
+
+    )
+    participation_format = models.CharField(
+        max_length=16,
+        choices=FORMAT,
+        default=ON
+    )
+    status = models.CharField(
+        max_length=16,
+        choices=STATUS_PARTICIPANT,
+        default=NEW
+    )
+    # Предлагаю еще добавить дату подписки
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'event'],
+                name='participant_user_event'
+            )
+        ]
+        verbose_name = 'Участник'
+        verbose_name_plural = 'Участники'
+
+    def __str__(self):
+        return f'Подписка пользователя {self.user} -> конференцию {self.event}'
+
+
+class Speaker(models.Model):
+    """Модель спикера события"""
+    participant = models.ForeignKey(
+        Participant,
+        on_delete=models.CASCADE,
+        related_name='speakers',
+        verbose_name='ID участника',
+
+    )
+    event = models.ForeignKey(
+      Event,
+      on_delete=models.CASCADE,
+      related_name='speakers',
+      help_text='Конференция, на которую подписались',
+      verbose_name='ID конференции',
+
+    )
+    # Заглушка 'Speeacker, main speacker, co-speacker, poster session speacker and so on'
+    # Решить: отдельный справочник или массив
+    type = models.CharField(
+        max_length=16,
+        default='speaker'
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['participant', 'event'],
+                name='speaker_user_event'
+            )
+        ]
+        verbose_name = 'Спикер'
+        verbose_name_plural = 'Спикеры'
+
+    def __str__(self):
+        return f'Спикер: участник {self.participant} -> конференцию {self.event}'
