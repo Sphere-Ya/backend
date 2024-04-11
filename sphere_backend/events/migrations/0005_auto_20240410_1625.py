@@ -30,6 +30,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('events', '0004_anketa'),
+        ('users', '0003_alter_user_first_name_alter_user_last_name'),
     ]
 
     operations = [
