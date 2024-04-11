@@ -63,7 +63,6 @@ def add_data(apps, schema_editor):
         EventSpecialization.objects.update_or_create(**row)
 
     Interest = apps.get_model("events", "Interest")
-    print(EventSpecialization.objects.filter(id=3))
     odj, _ = Interest.objects.get_or_create(
         id=1,
         name='Backend',
