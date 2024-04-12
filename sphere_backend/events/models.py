@@ -36,7 +36,7 @@ class City(models.Model):
         help_text="Введите название города",
         unique=False,
     )
-    сountry_id = models.ForeignKey(
+    country = models.ForeignKey(
         Country,
         on_delete=models.CASCADE,
         blank=False,
@@ -61,7 +61,7 @@ class Street(models.Model):
         help_text="Введите название улицы",
         unique=False,
     )
-    city_id = models.ForeignKey(
+    city = models.ForeignKey(
         City,
         on_delete=models.CASCADE,
         blank=False,
@@ -95,7 +95,7 @@ class Building(models.Model):
         verbose_name="Долгота",
         help_text="Введите долготу здания",
     )
-    street_id = models.ForeignKey(
+    street = models.ForeignKey(
         Street,
         on_delete=models.CASCADE,
         blank=False,
@@ -182,7 +182,7 @@ class Anketa(models.Model):
         (EXPERIENCE_5, EXPERIENCE_5),
         (OTHER, OTHER),
     )
-    users = models.ForeignKey(
+    user = models.ForeignKey(
         User,
         verbose_name='Пользователь',
         on_delete=models.CASCADE,
@@ -221,11 +221,14 @@ class Anketa(models.Model):
     )
     event_specializations = models.ManyToManyField(
         EventSpecialization,
-        verbose_name='Специализация'
+        verbose_name='Специализация',
+        related_name='anketa',
+
     )
     interests = models.ManyToManyField(
         Interest,
-        verbose_name='Интересы'
+        verbose_name='Интересы',
+        related_name='anketa',
     )
 
     class Meta:
