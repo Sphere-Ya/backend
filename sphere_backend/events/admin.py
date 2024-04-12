@@ -1,8 +1,9 @@
 from django.contrib import admin
+from mptt.admin import MPTTModelAdmin
 
-from .models import (
-    EventSpecialization, File, Interest, Country, City, Street, Building
-    )
+from .models import (Anketa, Event, EventSpecialization, File,
+                     Interest, Participant, Speaker, Country, City, Street,
+                     Building)
 
 
 @admin.register(EventSpecialization)
