@@ -11,118 +11,116 @@ def add_data(apps, schema_editor):
     )
 
     City = apps.get_model("events", "City")
+    obj_country1 = Country.objects.get(id=1)
     City.objects.get_or_create(
         id=1,
         name='Москва',
-        country_id=1,
+        country=obj_country1,
     )
 
-    City = apps.get_model("events", "City")
     City.objects.get_or_create(
         id=2,
         name='Санкт-Петербург',
-        country_id=1,
+        country=obj_country1,
     )
 
-    City = apps.get_model("events", "City")
     City.objects.get_or_create(
         id=3,
         name='Сочи',
-        country_id=1,
+        country=obj_country1,
     )
 
     Street = apps.get_model("events", "Street")
+    obj_city1 = City.objects.get(id=1)
     Street.objects.get_or_create(
         id=1,
         name='Арбат',
-        city_id=1,
+        city=obj_city1,
     )
 
-    Street = apps.get_model("events", "Street")
     Street.objects.get_or_create(
         id=2,
         name='Тверская',
-        city_id=1,
+        city=obj_city1,
     )
 
-    Street = apps.get_model("events", "Street")
+    obj_city2 = City.objects.get(id=2)
     Street.objects.get_or_create(
         id=3,
         name='Малая Содовая',
-        city_id=2,
+        city=obj_city2,
     )
 
-    Street = apps.get_model("events", "Street")
     Street.objects.get_or_create(
         id=4,
         name='Большая Морская',
-        city_id=2,
+        city=obj_city2,
     )
 
-    Street = apps.get_model("events", "Street")
+    obj_city3 = City.objects.get(id=3)
     Street.objects.get_or_create(
         id=5,
         name='Навагинска',
-        city_id=3,
+        city=obj_city3,
     )
 
-    Street = apps.get_model("events", "Street")
     Street.objects.get_or_create(
         id=6,
         name='Нагорная',
-        city_id=3,
+        city=obj_city3,
     )
 
     Building = apps.get_model("events", "Building")
+    obj_street1 = Street.objects.get(id=1)
     Building.objects.get_or_create(
         id=1,
         name='32',
-        street_id=1,
+        street=obj_street1,
         latitude=55.749096,
         longitude=37.589599,
     )
 
-    Building = apps.get_model("events", "Building")
+    obj_street2 = Street.objects.get(id=2)
     Building.objects.get_or_create(
         id=2,
         name='3',
-        street_id=2,
+        street=obj_street2,
         latitude=55.757369,
         longitude=37.612991,
     )
 
-    Building = apps.get_model("events", "Building")
+    obj_street3 = Street.objects.get(id=3)
     Building.objects.get_or_create(
         id=3,
         name='8',
-        street_id=3,
+        street=obj_street3,
         latitude=59.934619,
         longitude=30.337787,
     )
 
-    Building = apps.get_model("events", "Building")
+    obj_street4 = Street.objects.get(id=4)
     Building.objects.get_or_create(
         id=4,
         name='55',
-        street_id=4,
+        street=obj_street4,
         latitude=59.931287,
         longitude=30.302339,
     )
 
-    Building = apps.get_model("events", "Building")
+    obj_street5 = Street.objects.get(id=5)
     Building.objects.get_or_create(
         id=5,
         name='9Д',
-        street_id=5,
+        street=obj_street5,
         latitude=43.587912,
         longitude=39.723631,
     )
 
-    Building = apps.get_model("events", "Building")
+    obj_street6 = Street.objects.get(id=6)
     Building.objects.get_or_create(
         id=6,
         name='14',
-        street_id=6,
+        street=obj_street6,
         latitude=43.578198,
         longitude=39.730078,
     )
@@ -131,7 +129,7 @@ def add_data(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('events', '0006_event_participant_speaker_speaker_speaker_user_event_and_more'),
+        ('events', '0007_rename_users_anketa_user_and_more'),
     ]
 
     operations = [

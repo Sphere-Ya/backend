@@ -40,7 +40,7 @@ class FileAdmin(admin.ModelAdmin):
 class AnketaAdmin(admin.ModelAdmin):
 
     list_display = (
-        'users',
+        'user',
         'first_name',
         'last_name',
         'email',
