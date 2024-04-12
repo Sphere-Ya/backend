@@ -2,7 +2,8 @@ from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 
 from .models import (Anketa, Event, EventSpecialization, File,
-                     Interest, Participant, Speaker)
+                     Interest, Participant, Speaker, Country, City, Street,
+                     Building)
 
 
 @admin.register(EventSpecialization)
@@ -107,3 +108,41 @@ class SpeakerAdmin(admin.ModelAdmin):
     search_fields = ('participant', 'event')
     list_filter = ('participant', 'event')
     empty_value_display = '-пусто-'
+
+@admin.register(Country)
+class CountyAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+    )
+    search_fields = ('name',)
+    list_filter = ('name',)
+    empty_value_display = '-пусто-'
+
+
+@admin.register(City)
+class CityAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+    )
+    search_fields = ('name',)
+    list_filter = ('name',)
+    empty_value_display = '-пусто-'
+
+
+@admin.register(Street)
+class StreetAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+    )
+    search_fields = ('name',)
+    list_filter = ('name',)
+    empty_value_display = '-пусто-'
+
+
+@admin.register(Building)
+class BuildingAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+    )
+    search_fields = ('name',)
+    list_filter = ('name',)
