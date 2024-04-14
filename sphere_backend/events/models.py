@@ -259,10 +259,12 @@ class Event(MPTTModel):
     started_at = models.DateTimeField(
         verbose_name='Дата начала события',
         blank=True,  # Цикличные события без дат
+        null=True,
     )
     ended_at = models.DateTimeField(
         verbose_name='Дата окончания события',
         blank=True,
+        null=True,
     )
     is_online = models.BooleanField(
         verbose_name='Онлайн',
