@@ -109,6 +109,7 @@ class SpeakerAdmin(admin.ModelAdmin):
     list_filter = ('participant', 'event')
     empty_value_display = '-пусто-'
 
+
 @admin.register(Country)
 class CountyAdmin(admin.ModelAdmin):
     list_display = (
