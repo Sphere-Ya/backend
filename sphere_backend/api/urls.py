@@ -2,12 +2,14 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from .views_users import ExtensionUserViewSet
+from .views_events import EventViewSet
 from .views import (EventSpecializationViewSet, InterestView)
 
 app_name = 'api'
 
 router_v1 = DefaultRouter()
 router_v1.register('users', ExtensionUserViewSet)
+router_v1.register('events', EventViewSet, basename='events')
 router_v1.register('EventSpecialization', EventSpecializationViewSet)
 router_v1.register('Interest', InterestView)
 
