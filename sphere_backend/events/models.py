@@ -1,9 +1,7 @@
 """Models for Events."""
 from django.contrib.auth import get_user_model
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
-from django.db.models.deletion import CASCADE
 
 User = get_user_model()
 
@@ -41,7 +39,8 @@ class City(models.Model):
         on_delete=models.CASCADE,
         blank=False,
         verbose_name="id страны",
-        related_name='cities')
+        related_name='cities'
+    )
 
     class Meta:
         ordering = ["name"]
@@ -148,6 +147,20 @@ class Interest(models.Model):
         return self.name
 
 
+class TypeOfFile(models.Model):
+    type_of_file = models.CharField(
+        verbose_name='Тип файла',
+        max_length=50
+    )
+
+    class Meta:
+        verbose_name = 'Тип файла'
+        verbose_name_plural = 'Типы файла'
+
+    def __str__(self):
+        return self.type_of_file
+
+
 class File(models.Model):
     """"Модель для файлов"""
     name = models.CharField(
@@ -158,6 +171,12 @@ class File(models.Model):
     link = models.URLField(
         verbose_name='Ссылка на файл',
         blank=False
+    )
+    type = models.ForeignKey(
+        TypeOfFile,
+        verbose_name='Тип файла',
+        on_delete=models.CASCADE,
+        related_name='files'
     )
 
     class Meta:
@@ -255,6 +274,7 @@ class Event(MPTTModel):
     description = models.TextField(
         verbose_name='Описание события',
         blank=True,
+        null=True,
     )
     started_at = models.DateTimeField(
         verbose_name='Дата начала события',
@@ -292,6 +312,7 @@ class Event(MPTTModel):
         verbose_name='Как добраться',
         max_length=250,
         blank=True,
+        null=True,
     )
     event_specializations = models.ManyToManyField(
         EventSpecialization,
@@ -376,6 +397,14 @@ class Participant(models.Model):
 
 class Speaker(models.Model):
     """Модель спикера события"""
+    NEW = 'new'
+    ACCEPTED = 'accepted'
+    CANCELED = 'canceled'
+    STATUS_PARTICIPANT = (
+        (NEW, 'new'),
+        (ACCEPTED, 'accepted'),
+        (CANCELED, 'canceled'),
+    )
     participant = models.ForeignKey(
         Participant,
         on_delete=models.CASCADE,
@@ -396,6 +425,11 @@ class Speaker(models.Model):
     type = models.CharField(
         max_length=16,
         default='speaker'
+    )
+    status = models.CharField(
+        max_length=16,
+        choices=STATUS_PARTICIPANT,
+        default=NEW
     )
 
     class Meta:
