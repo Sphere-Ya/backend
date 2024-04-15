@@ -1,4 +1,4 @@
-from rest_framework.views import permissions, status, APIView
+from rest_framework import mixins, permissions, viewsets
 from serializers_anketa import AnketaSerializer
 from serializers_event_specialization import EventSpecializationSerializers
 from serializers_interest import InterestSerializers
@@ -7,18 +7,13 @@ from events.models import Anketa, Interest, EventSpecialization
 from users.models import User
 
 
-class AnketaViewSet(APIView):
+class AnketaViewSet(
+    mixins.CreatModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet
+):
     """ Отображение анкеты пользователя """
-    def get(self, request):
-        user = User.objects.get(user_id=request.user_id)
-        
-"""
-    def post(self, request):
-        ...
-
-    def put(self, request):
-        ...
-
-    def patch(self, request):
-        ...
-"""
+    queryset = Anketa.objects.all()
+    serializer_class = AnketaSerializer
+    permission_classes = (permissions.IsAuthenticated,)
