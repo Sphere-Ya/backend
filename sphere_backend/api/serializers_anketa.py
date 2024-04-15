@@ -1,5 +1,4 @@
 """ Anketa serializers """
-from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from events.models import Anketa
 from serializers_interest import InterestSerializers
