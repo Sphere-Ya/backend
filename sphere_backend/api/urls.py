@@ -10,14 +10,12 @@ app_name = 'api'
 router_v1 = DefaultRouter()
 router_v1.register('users', ExtensionUserViewSet)
 router_v1.register('events', EventViewSet, basename='events')
-router_v1.register('EventSpecialization', EventSpecializationViewSet)
-router_v1.register('Interest', InterestView)
+router_v1.register('event-specialization', EventSpecializationViewSet)
+router_v1.register('interest', InterestView)
 
 
 urlpatterns = [
     path('v1/', include(router_v1.urls)),
     # эндпоинты, для авторизации по токенам с помощью authtoken:
     path('auth/', include('djoser.urls.authtoken')),
-    path('eventSpecialization/', include(router_v1.urls)),
-    path('interest/', include(router_v1.urls))
 ]
