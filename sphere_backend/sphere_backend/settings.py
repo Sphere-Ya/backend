@@ -52,9 +52,9 @@ INSTALLED_APPS = [
     'django_filters',
     'djoser',
     'corsheaders',
-    'api',
     'users',
     'events',
+    'api',
 ]
 
 MIDDLEWARE = [
