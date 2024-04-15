@@ -1,10 +1,10 @@
 """ Interest serializers """
 from rest_framework import serializers
 from events.models import Interest
-from serializers_event_specialization import EventSpecializationSerializers
+from .serializers_event_specialization import EventSpecializationSerializers
 
 
-class InterestSerializers(serializers.ModelSerialazer):
+class InterestSerializers(serializers.ModelSerializer):
     interests = EventSpecializationSerializers(read_only=True, many=True)
 
     class Meta():

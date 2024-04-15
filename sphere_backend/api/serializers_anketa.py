@@ -1,11 +1,11 @@
 """ Anketa serializers """
 from rest_framework import serializers
 from events.models import Anketa
-from serializers_interest import InterestSerializers
-from serializers_event_specialization import EventSpecializationSerializers
+from .serializers_interest import InterestSerializers
+from .serializers_event_specialization import EventSpecializationSerializers
 
 
-class AnketaSerializer(serializers.ModelSerialazer):
+class AnketaSerializer(serializers.ModelSerializer):
     event_specializations = EventSpecializationSerializers(
         read_only=True,
         many=True
@@ -16,7 +16,6 @@ class AnketaSerializer(serializers.ModelSerialazer):
         model = Anketa
         fields = [
             'id',
-            'user_anketa',
             'first_name',
             'last_name',
             'email',

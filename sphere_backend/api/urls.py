@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 
 from .views_users import ExtensionUserViewSet
 from .views_events import EventViewSet
+from .views_anketa import AnketaViewSet
 
 app_name = 'api'
 

@@ -1,14 +1,14 @@
 from rest_framework import mixins, permissions, viewsets
-from serializers_anketa import AnketaSerializer
-from serializers_event_specialization import EventSpecializationSerializers
-from serializers_interest import InterestSerializers
-from serializers_users import SpecialUserSerializer
+from .serializers_anketa import AnketaSerializer
+from .serializers_event_specialization import EventSpecializationSerializers
+from .serializers_interest import InterestSerializers
+from .serializers_users import SpecialUserSerializer
 from events.models import Anketa, Interest, EventSpecialization
 from users.models import User
 
 
 class AnketaViewSet(
-    mixins.CreatModelMixin,
+    mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     viewsets.GenericViewSet
@@ -17,3 +17,7 @@ class AnketaViewSet(
     queryset = Anketa.objects.all()
     serializer_class = AnketaSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        print(self.request.user)
+        serializer.save(user=self.request.user)
