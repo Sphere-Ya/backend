@@ -5,6 +5,7 @@ from .serializers_interest import InterestSerializers
 from .serializers_users import SpecialUserSerializer
 from events.models import Anketa, Interest, EventSpecialization
 from users.models import User
+from .permissions import OwnerFullAccess
 
 
 class AnketaViewSet(
@@ -16,8 +17,12 @@ class AnketaViewSet(
     """ Отображение анкеты пользователя """
     queryset = Anketa.objects.all()
     serializer_class = AnketaSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (OwnerFullAccess,)
 
     def perform_create(self, serializer):
-        print(self.request.user)
-        serializer.save(user=self.request.user)
+        anketa = Anketa.objects.filter(user=self.request.user).exists
+        print(anketa)
+        if (anketa):
+            return
+        else:
+            serializer.save(user=self.request.user)
