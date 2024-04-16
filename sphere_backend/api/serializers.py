@@ -5,12 +5,12 @@ from rest_framework import serializers
 from events.models import EventSpecialization, Interest
 
 
-class EventSpecializationSerializer(serializers.ModelSerializer):
-    """Серилизатор справочник специализаций."""
-
-    class Meta:
-        model = EventSpecialization
-        fields = ['id', 'name']
+# class EventSpecializationSerializer(serializers.ModelSerializer):
+#     """Серилизатор справочник специализаций."""
+#
+#     class Meta:
+#         model = EventSpecialization
+#         fields = ['id', 'name']
 
 
 class InterestSerializer(serializers.ModelSerializer):
