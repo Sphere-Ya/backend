@@ -1,11 +1,7 @@
-from rest_framework import mixins, permissions, viewsets
+from rest_framework import mixins, viewsets
 from rest_framework.permissions import SAFE_METHODS
 from .serializers_anketa import AnketaSerializer, AnketaSerializerAdd
-from .serializers_event_specialization import EventSpecializationSerializers
-from .serializers_interest import InterestSerializers
-from .serializers_users import SpecialUserSerializer
-from events.models import Anketa, Interest, EventSpecialization
-from users.models import User
+from events.models import Anketa
 from .permissions import OwnerFullAccess
 
 
@@ -19,7 +15,7 @@ class AnketaViewSet(
     queryset = Anketa.objects.all()
     serializer_class = AnketaSerializer
     permission_classes = (OwnerFullAccess,)
-    
+
     def get_serializer_class(self):
         """ Выбираем какой сериализатор использовать """
         if self.request.method in SAFE_METHODS:

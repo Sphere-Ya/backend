@@ -6,6 +6,7 @@ from .serializers_event_specialization import EventSpecializationSerializers
 
 
 class AnketaSerializer(serializers.ModelSerializer):
+    """ Сериализатор для отображения Анкеты интересов и специализаций """
     event_specializations = EventSpecializationSerializers(
         read_only=True,
         many=True
@@ -29,6 +30,7 @@ class AnketaSerializer(serializers.ModelSerializer):
 
 
 class AnketaSerializerAdd(serializers.ModelSerializer):
+    """ Сериализатор для редактирования Анкеты интересов и специализаций """
     event_specializations = serializers.PrimaryKeyRelatedField(
         queryset=EventSpecialization.objects.all(),
         many=True,
