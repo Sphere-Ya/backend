@@ -7,7 +7,9 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 
 from events.models import (EventSpecialization, Interest)
-# from api.serializers import (EventSpecializationSerializer, InterestSerializer)
+from .serializers_event_specialization import EventSpecializationSerializer
+from .serializers_interest import InterestSerializers
+
 
 
 # class InterestView(generics.ListAPIView):

@@ -3,7 +3,7 @@ from rest_framework import serializers
 from events.models import EventSpecialization
 
 
-class EventSpecializationSerializers(serializers.ModelSerializer):
+class EventSpecializationSerializer(serializers.ModelSerializer):
 
     class Meta():
         model = EventSpecialization

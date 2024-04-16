@@ -2,12 +2,12 @@
 from rest_framework import serializers
 from events.models import Anketa, EventSpecialization, Interest
 from .serializers_interest import InterestSerializers
-from .serializers_event_specialization import EventSpecializationSerializers
+from .serializers_event_specialization import EventSpecializationSerializer
 
 
 class AnketaSerializer(serializers.ModelSerializer):
     """ Сериализатор для отображения Анкеты интересов и специализаций """
-    event_specializations = EventSpecializationSerializers(
+    event_specializations = EventSpecializationSerializer(
         read_only=True,
         many=True
     )

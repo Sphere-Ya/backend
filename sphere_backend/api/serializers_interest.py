@@ -5,8 +5,9 @@ from .serializers_event_specialization import EventSpecializationSerializers
 
 
 class InterestSerializers(serializers.ModelSerializer):
-    interests = EventSpecializationSerializers(read_only=True, many=True)
 
     class Meta():
         model = Interest
-        fields = ('id', 'name', 'interests')
+        fields = ('id', 'name',)
+        # 'event_specializations'
+
