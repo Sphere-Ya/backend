@@ -1,7 +1,7 @@
 """ Anketa serializers """
 from rest_framework import serializers
 from events.models import Anketa, EventSpecialization, Interest
-from .serializers_interest import InterestSerializers
+from .serializers_interest import InterestSerializer
 from .serializers_event_specialization import EventSpecializationSerializer
 
 
@@ -11,7 +11,7 @@ class AnketaSerializer(serializers.ModelSerializer):
         read_only=True,
         many=True
     )
-    interests = InterestSerializers(read_only=True, many=True)
+    interests = InterestSerializer(read_only=True, many=True)
 
     class Meta():
         model = Anketa
