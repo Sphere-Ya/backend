@@ -10,6 +10,7 @@ app_name = 'api'
 router_v1 = DefaultRouter()
 router_v1.register('users', ExtensionUserViewSet)
 router_v1.register('events', EventViewSet, basename='events')
+router_v1.register('anketa', AnketaViewSet, basename='anketa')
 
 
 urlpatterns = [
