@@ -4,7 +4,6 @@ from django.db import migrations
 
 def add_anketa(apps, schema_editor):
     Anketa = apps.get_model('events', 'Anketa')
-
     User = apps.get_model('users', 'User')
     user_id = User.objects.get(id=1)
 

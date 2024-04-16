@@ -58,3 +58,6 @@ class AnketaSerializerAdd(serializers.ModelSerializer):
             'event_specializations',
             'interests'
         ]
+
+    def to_representation(self, instance):
+        return AnketaSerializer(instance, context=self.context).data
