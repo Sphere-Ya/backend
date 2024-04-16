@@ -201,7 +201,7 @@ class Anketa(models.Model):
         (EXPERIENCE_5, EXPERIENCE_5),
         (OTHER, OTHER),
     )
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         User,
         verbose_name='Пользователь',
         on_delete=models.CASCADE,
