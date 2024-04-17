@@ -2,13 +2,11 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from events.models import (Event, Participant, Speaker,)
+from events.models import (Anketa, Event, Participant, Speaker,)
 from .serializers_addresses import (BuildingSerializer, StreetSerializer,
                                     CitySerializer, CountrySerializer)
 from .serializers_event_specializations import EventSpecializationSerializer
 from .serializers_files import FileSerializer
-from .serializers_anketa import AnketaForSpeakerSerializer
-from .serializers_users import SpecialUserSerializer
 
 User = get_user_model()
 
@@ -24,11 +22,18 @@ class SpeakerforEventSerializer(serializers.ModelSerializer):
 
     def get_personal_data(self, obj):
         """Необходимо отдавать данные из анкеты
-        имя, фамилию, место работы, должность"""
+        имя, фамилию, место работы, должность
+        Спикером может быть только зарегистрированный на событие пользователь,
+        поэтому проверку на наличие анкеты не делаем
+        Фото прикрепляется через модель File с типом avatar"""
 
         user = obj.participant.user
+        anketa = Anketa.objects.get(user=user)
         data = {}
-        data['user_id'] = user.id
+        data['first_name'] = anketa.first_name
+        data['last_name'] = anketa.last_name
+        data['job_position'] = anketa.job_position
+        data['job_title'] = anketa.job_title
         return data
 
 
