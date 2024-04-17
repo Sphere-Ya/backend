@@ -2,20 +2,34 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from events.models import (Event, EventSpecialization, Participant, Speaker,)
-from .serializers_address import (BuildingSerializer, StreetSerializer,
-                                  CitySerializer, CountrySerializer)
-from .serializers_event_specialization import EventSpecializationSerializer
+from events.models import (Event, Participant, Speaker,)
+from .serializers_addresses import (BuildingSerializer, StreetSerializer,
+                                    CitySerializer, CountrySerializer)
+from .serializers_event_specializations import EventSpecializationSerializer
+from .serializers_files import FileSerializer
+from .serializers_anketa import AnketaForSpeakerSerializer
+from .serializers_users import SpecialUserSerializer
 
 User = get_user_model()
 
 
-# class SpeakerSerializer(serializers.ModelSerializer):
-#     """Cериализатор для спикера"""
-#
-#     class Meta:
-#         fields = '__all__'
-#         model = Speaker
+class SpeakerforEventSerializer(serializers.ModelSerializer):
+    """Cериализатор для спикера"""
+
+    personal_data = serializers.SerializerMethodField()
+
+    class Meta:
+        fields = ['id', 'type', 'personal_data']
+        model = Speaker
+
+    def get_personal_data(self, obj):
+        """Необходимо отдавать данные из анкеты
+        имя, фамилию, место работы, должность"""
+
+        user = obj.participant.user
+        data = {}
+        data['user_id'] = user.id
+        return data
 
 
 class AddressSerializer(serializers.Field):
@@ -64,12 +78,14 @@ class EventRetrieveSerializer(EventListSerializer):
     """Cериализатор для события (retrieve)"""
     children = serializers.SerializerMethodField()
     address = AddressSerializer(source='building')
-    # speaker = serializers.SpeakerSerializer(read_only=True)
+    files = FileSerializer(many=True, read_only=True)
+    speakers = SpeakerforEventSerializer(many=True, read_only=True)
 
     class Meta:
         fields = ['id', 'name', 'description', 'started_at', 'ended_at',
                   'is_online', 'link', 'is_offline', 'address_comment',
-                  'address', 'event_specializations', 'children',]
+                  'address', 'event_specializations', 'files', 'speakers',
+                  'children',]
         # 'speaker',
         model = Event
 

@@ -148,6 +148,7 @@ Response:
 [
    {
        "id": 1,
+       "user": 1,
        "first_name": "Василий",
        "last_name": "Васильев",
        "email": "vasya@yandex.ru",
@@ -196,6 +197,7 @@ GET api/v1/anketa/{id}/
 Response:
 {
     "id": 1,
+    "user": 1,
     "first_name": "Василий",
     "last_name": "Васильев",
     "email": "vasya@yandex.ru",
@@ -262,6 +264,7 @@ Response:
 [
    {
        "id": 1,
+       "user": 1,
        "first_name": "Василий",
        "last_name": "Васильев",
        "email": "vasya@yandex.ru",

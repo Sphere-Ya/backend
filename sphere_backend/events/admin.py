@@ -2,8 +2,8 @@ from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 
 from .models import (Anketa, Event, EventSpecialization, File,
-                     Interest, Participant, Speaker, Country, City, Street,
-                     Building)
+                     Interest, Participant, Speaker, TypeOfFile,
+                     Country, City, Street, Building)
 
 
 @admin.register(EventSpecialization)
@@ -24,6 +24,13 @@ class InterestAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     list_filter = ('name',)
     empty_value_display = '-пусто-'
+
+
+@admin.register(TypeOfFile)
+class TypeOfFileAdmin(admin.ModelAdmin):
+    list_display = (
+        'type_of_file',
+    )
 
 
 @admin.register(File)
