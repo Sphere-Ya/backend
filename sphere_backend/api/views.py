@@ -1,11 +1,6 @@
 """Views api."""
 
 from rest_framework import viewsets, generics
-from rest_framework.decorators import action, permission_classes
-from rest_framework.response import Response
-from rest_framework import filters, status
-from rest_framework.permissions import AllowAny
-from django_filters.rest_framework import DjangoFilterBackend
 
 from events.models import (EventSpecialization, Interest)
 from .serializers_event_specializations import EventSpecializationSerializer
@@ -16,6 +11,7 @@ class InterestView(viewsets.ReadOnlyModelViewSet):
     "View для справочника направлений работы. Только GET."
     queryset = Interest.objects.all()
     serializer_class = InterestSerializer
+    pagination_class = None
 
 
 class EventSpecializationViewSet(viewsets.ReadOnlyModelViewSet):
@@ -26,5 +22,4 @@ class EventSpecializationViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = EventSpecialization.objects.all()
     serializer_class = EventSpecializationSerializer
-    # filter_backends = (DjangoFilterBackend,)
-    # filterset_fields = ('interest',)
+    pagination_class = None

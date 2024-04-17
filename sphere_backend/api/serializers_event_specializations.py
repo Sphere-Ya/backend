@@ -7,5 +7,5 @@ class EventSpecializationSerializer(serializers.ModelSerializer):
 
     class Meta():
         model = EventSpecialization
-        fields = ('id', 'name',)
+        fields = ('id', 'name')
 
