@@ -1,8 +1,8 @@
 """ Anketa serializers """
 from rest_framework import serializers
 from events.models import Anketa, EventSpecialization, Interest
-from .serializers_interest import InterestSerializer
-from .serializers_event_specialization import EventSpecializationSerializer
+from .serializers_interests import InterestSerializer
+from .serializers_event_specializations import EventSpecializationSerializer
 
 
 class AnketaSerializer(serializers.ModelSerializer):
@@ -17,6 +17,7 @@ class AnketaSerializer(serializers.ModelSerializer):
         model = Anketa
         fields = [
             'id',
+            'user',
             'first_name',
             'last_name',
             'email',
@@ -61,3 +62,14 @@ class AnketaSerializerAdd(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         return AnketaSerializer(instance, context=self.context).data
+
+
+class AnketaForSpeakerSerializer(serializers.ModelSerializer):
+    class Meta():
+        model = Anketa
+        fields = [
+            'first_name',
+            'last_name',
+            'job_position',
+            'job_title',
+        ]
